@@ -12,9 +12,9 @@ const UserSchema = mongoose.Schema({
     email: {
         type: String
     },
-    weathers: [{
+    magazins:[{
         type: mongoose.Types.ObjectId,
-        ref: 'weather'
+        ref: 'magazin'
     }],
     adminId: {
         type: mongoose.Types.ObjectId,

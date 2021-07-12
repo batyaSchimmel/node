@@ -2,8 +2,8 @@ const User = require('../model/user')
 const request = require('request')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken')
-const Admin = require('../model/admin')
-const Weather = require('../model/weather')
+// const Admin = require('../model/admin')
+// const Weather = require('../model/weather')
 
 
 function sendMail(email, name) {
@@ -49,7 +49,8 @@ const signUp = (req, res) => {
     const user = new User(req.body);
     console.log(user);
     user.save().then(user => {
-        Admin.findByIdAndUpdate(req.body.adminId, { $push: { 'users': user._id } })
+        res.json({ user: user })
+        // Admin.findByIdAndUpdate(req.body.adminId, { $push: { 'users': user._id } })
             // .then(u => {
             //     sendMail(u.email, u.name)
             //         .then(() =>
