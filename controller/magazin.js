@@ -1,4 +1,4 @@
-const Weather = require('../model/weather')
+const Magazin = require('../model/Magazin')
 const request = require('request')
 const User = require('../model/user')
 const jwt = require('jsonwebtoken')
@@ -48,11 +48,26 @@ const creatWeather = async (req, res) => {
     // const weather=new Weather(req.body.name)
 
 }
-const getAllWeathers = (req, res) => {
+const createMagazine = (req, res) => {
+    const magazine = new Magazin(req.body);
+    console.log(magazine);
+    magazine.save().then(magazine => {
+        User.findByIdAndUpdate(req.body.userId, { $push: { 'magazins': magazine._id } })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }).catch(err => {
+        res.send(err);
+    });
+}
+
+
+const getMagazinByUserId = (req, res) => {
     User.findById(req.params.id)
-        .populate({ path: 'weathers' })
+        .populate({ path: 'magzins' })
         .then((data) => {
-            res.json({ myweathers: data.weathers })
+            res.json({ myMagazins: data.magazins })
         }).catch((err) => {
             res.json({ message: err })
         })
@@ -61,4 +76,4 @@ const getAllWeathers = (req, res) => {
 
 
 
-module.exports = { creatWeather, getAllWeathers }
+module.exports = { createMagazine, getMagazinByUserId }
